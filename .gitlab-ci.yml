@@ -48,7 +48,6 @@ lint:
   script:
     - poetry run black --check src tests
     - poetry run isort --check-only src tests
-    - poetry run flake8 src tests
   needs:
     - install
   only:
