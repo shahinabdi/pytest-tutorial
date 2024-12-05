@@ -68,7 +68,9 @@ class TestEdgeCases:
             "bool_second_arg",
         ],
     )
-    def test_operation_type_validation(self, calc, operation, x, y, expected_error):
+    def test_operation_type_validation(
+    self, calc, operation, x, y, expected_error
+):
         """Test that operations handle invalid input types"""
         with pytest.raises(TypeError) as exc_info:
             method = getattr(calc, operation)
@@ -154,7 +156,11 @@ class TestCalculatorPrecision:
 
     @pytest.mark.parametrize(
         "x, y",
-        [(1 / 3, 1 / 6), (0.1111111111, 0.2222222222), (0.999999999, 0.000000001)],
+        [
+            (1/3, 1/6),
+            (0.1111111111, 0.2222222222),
+            (0.999999999, 0.000000001),
+        ]
     )
     def test_floating_point_precision(self, calc, x, y):
         """Test precision with floating point calculations"""
