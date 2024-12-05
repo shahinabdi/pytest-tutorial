@@ -154,7 +154,11 @@ class TestCalculatorPrecision:
 
     @pytest.mark.parametrize(
         "x, y",
-        [(1 / 3, 1 / 6), (0.1111111111, 0.2222222222), (0.999999999, 0.000000001)],
+        [
+            (1 / 3, 1 / 6),
+            (0.1111111111, 0.2222222222),
+            (0.999999999, 0.000000001),
+        ],
     )
     def test_floating_point_precision(self, calc, x, y):
         """Test precision with floating point calculations"""
