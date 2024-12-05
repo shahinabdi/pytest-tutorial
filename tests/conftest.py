@@ -26,5 +26,6 @@ def pytest_configure(config):
         "markers", "edge_cases: mark tests that handle boundary and special cases"
     )
     config.addinivalue_line(
-        "markers", "integration: mark tests that verify multiple operations together"
+        "markers", 
+        "integration: mark tests that verify multiple operations together"
     )
