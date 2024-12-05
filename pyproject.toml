@@ -31,11 +31,12 @@ multi_line_output = 3
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "--cov=src --cov-report=term-missing"
+addopts = "--cov=src --cov-report=term-missing --cov-report=xml"
 
 [tool.coverage.run]
 source = ["src"]
 branch = true
+parallel = true
 
 [tool.coverage.report]
 exclude_lines = [
