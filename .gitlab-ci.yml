@@ -118,5 +118,4 @@ coverage-report:
     - test-slow
   only:
     - main
-    - develop
     - /^release-.*$/
