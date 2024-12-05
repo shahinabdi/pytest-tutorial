@@ -60,13 +60,17 @@ test-fast:
   stage: test
   script:
     - poetry run pytest -v -m "not slow" 
-      --junitxml=report.xml 
       --cov=src 
       --cov-report=xml 
-      --cov-report=term
+      --cov-report=term 
+      --junitxml=report.xml
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     when: always
+    paths:
+      - .coverage
+      - coverage.xml
+      - report.xml
     reports:
       junit: report.xml
       coverage_report:
@@ -83,10 +87,17 @@ test-slow:
   extends: .default_config
   stage: test
   script:
-    - poetry run pytest -v -m "slow"
+    - poetry run pytest -v -m "slow" 
+      --cov=src 
+      --cov-report=xml 
+      --cov-report=term 
       --junitxml=slow-report.xml
   artifacts:
     when: always
+    paths:
+      - .coverage.slow
+      - coverage.xml
+      - slow-report.xml
     reports:
       junit: slow-report.xml
   needs:
@@ -101,7 +112,8 @@ coverage-report:
   extends: .default_config
   stage: report
   script:
-    - poetry run coverage combine
+    - mv .coverage.slow .coverage.slow.bak || true
+    - poetry run coverage combine .coverage .coverage.slow.bak || true
     - poetry run coverage report
     - poetry run coverage html
   artifacts:
