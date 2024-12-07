@@ -77,9 +77,7 @@ test-fast:
         path: coverage.xml
   needs:
     - install
-  only:
-    - develop
-    - merge_requests
+
 # Comprehensive tests including slow ones
 test-slow:
   extends: .default_config
