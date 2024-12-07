@@ -18,13 +18,12 @@ variables:
     paths:
       - .poetry-cache/
       - .venv/
+
   before_script:
-    # Install Poetry
     - python -V
     - python -m pip install --upgrade pip
     - pip install poetry==${POETRY_VERSION}
     - poetry config virtualenvs.in-project true
-    # Show Poetry and environment information
     - poetry env info
     - poetry show
 
@@ -60,10 +59,10 @@ test-fast:
   stage: test
   script:
     - poetry run pytest -v -m "not slow" 
-      --cov=src 
-      --cov-report=xml 
-      --cov-report=term 
-      --junitxml=report.xml
+        --cov=src 
+        --cov-report=xml 
+        --cov-report=term 
+        --junitxml=report.xml
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     when: always
@@ -81,17 +80,16 @@ test-fast:
   only:
     - develop
     - merge_requests
-
 # Comprehensive tests including slow ones
 test-slow:
   extends: .default_config
   stage: test
   script:
     - poetry run pytest -v -m "slow" 
-      --cov=src 
-      --cov-report=xml 
-      --cov-report=term 
-      --junitxml=slow-report.xml
+        --cov=src 
+        --cov-report=xml 
+        --cov-report=term 
+        --junitxml=slow-report.xml
   artifacts:
     when: always
     paths:

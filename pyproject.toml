@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-tutorial"
-version = "2.2.0"
+version = "2.3.0"
 description = "A tutorial project for learning pytest"
 authors = ["Shahin ABDI <shahin.abdi@ias.u-psud.fr>"]
 readme = "README.md"
@@ -14,6 +14,7 @@ pytest-cov = "^6.0.0"
 black = "^24.10.0"
 isort = "^5.13.2"
 pre-commit = "^4.0.1"
+coverage = "^7.6.9"
 
 [build-system]
 requires = ["poetry-core"]
