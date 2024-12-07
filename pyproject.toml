@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-tutorial"
-version = "2.6.0"
+version = "2.7.0"
 description = "A tutorial project for learning pytest"
 authors = ["Shahin ABDI <shahin.abdi@ias.u-psud.fr>"]
 readme = "README.md"
