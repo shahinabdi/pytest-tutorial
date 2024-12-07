@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-tutorial"
-version = "0.1.0"
+version = "2.6.0"
 description = "A tutorial project for learning pytest"
 authors = ["Shahin ABDI <shahin.abdi@ias.u-psud.fr>"]
 readme = "README.md"
@@ -14,6 +14,7 @@ pytest-cov = "^6.0.0"
 black = "^24.10.0"
 isort = "^5.13.2"
 pre-commit = "^4.0.1"
+coverage = "^7.6.9"
 
 [build-system]
 requires = ["poetry-core"]
@@ -31,11 +32,12 @@ multi_line_output = 3
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "--cov=src --cov-report=term-missing"
+addopts = "--cov=src --cov-report=term-missing --cov-report=xml"
 
 [tool.coverage.run]
 source = ["src"]
 branch = true
+parallel = true
 
 [tool.coverage.report]
 exclude_lines = [

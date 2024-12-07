@@ -1,8 +1,7 @@
 stages:
   - install
   - lint
-  - test-fast
-  - test-slow
+  - test
   - report
 
 variables:
@@ -19,13 +18,12 @@ variables:
     paths:
       - .poetry-cache/
       - .venv/
+
   before_script:
-    # Install Poetry
     - python -V
     - python -m pip install --upgrade pip
     - pip install poetry==${POETRY_VERSION}
     - poetry config virtualenvs.in-project true
-    # Show Poetry and environment information
     - poetry env info
     - poetry show
 
@@ -58,16 +56,20 @@ lint:
 # Fast tests for development
 test-fast:
   extends: .default_config
-  stage: test-fast
+  stage: test
   script:
     - poetry run pytest -v -m "not slow" 
-      --junitxml=report.xml 
-      --cov=src 
-      --cov-report=xml 
-      --cov-report=term
+        --cov=src 
+        --cov-report=xml 
+        --cov-report=term 
+        --junitxml=report.xml
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     when: always
+    paths:
+      - .coverage
+      - coverage.xml
+      - report.xml
     reports:
       junit: report.xml
       coverage_report:
@@ -75,19 +77,23 @@ test-fast:
         path: coverage.xml
   needs:
     - install
-  only:
-    - develop
-    - merge_requests
 
 # Comprehensive tests including slow ones
 test-slow:
   extends: .default_config
-  stage: test-slow
+  stage: test
   script:
-    - poetry run pytest -v -m "slow"
-      --junitxml=slow-report.xml
+    - poetry run pytest -v -m "slow" 
+        --cov=src 
+        --cov-report=xml 
+        --cov-report=term 
+        --junitxml=slow-report.xml
   artifacts:
     when: always
+    paths:
+      - .coverage.slow
+      - coverage.xml
+      - slow-report.xml
     reports:
       junit: slow-report.xml
   needs:
@@ -96,13 +102,14 @@ test-slow:
     - main
     - /^release-.*$/
   when: manual
-
 # Generate coverage reports
 coverage-report:
   extends: .default_config
   stage: report
   script:
-    - poetry run coverage combine
+    - mv .coverage.slow .coverage.slow.bak || true
+    - poetry install
+    - poetry run coverage combine .coverage .coverage.slow.bak || true
     - poetry run coverage report
     - poetry run coverage html
   artifacts:
@@ -113,8 +120,10 @@ coverage-report:
         coverage_format: cobertura
         path: coverage.xml
   needs:
-    - test-fast
-    - test-slow
+    - job: test-fast
+      optional: true
+    - job: test-slow
+      optional: true
   only:
     - main
     - /^release-.*$/
