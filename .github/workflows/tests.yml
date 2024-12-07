@@ -113,9 +113,11 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-    artifacts:
-      paths:
-        - report.xml
+      - name: Upload fast test report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: fast-test-report
+          path: report.xml
 
   test-slow:
     runs-on: ubuntu-latest
@@ -154,9 +156,11 @@ jobs:
           flags: slow-tests
           name: codecov-slow
 
-    artifacts:
-      paths:
-        - slow-report.xml
+      - name: Upload slow test report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: slow-test-report
+          path: slow-report.xml
 
   coverage-report:
     runs-on: ubuntu-latest
