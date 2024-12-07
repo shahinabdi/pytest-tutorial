@@ -104,13 +104,13 @@ test-slow:
     - main
     - /^release-.*$/
   when: manual
-
 # Generate coverage reports
 coverage-report:
   extends: .default_config
   stage: report
   script:
     - mv .coverage.slow .coverage.slow.bak || true
+    - poetry install
     - poetry run coverage combine .coverage .coverage.slow.bak || true
     - poetry run coverage report
     - poetry run coverage html
